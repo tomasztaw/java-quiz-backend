@@ -1,6 +1,8 @@
 package pl.taw.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.taw.database.entity.QuestionEntity;
 import pl.taw.service.QuestionService;
@@ -16,7 +18,7 @@ public class QuestionController {
     private QuestionService questionService;
 
     @GetMapping("/allQuestions")
-    public List<QuestionEntity> getAllQuestions() {
+    public ResponseEntity<List<QuestionEntity>> getAllQuestions() {
         return questionService.getAllQuestions();
     }
 
@@ -31,12 +33,12 @@ public class QuestionController {
     }
 
     @GetMapping("/category/{category}")
-    public List<QuestionEntity> getAllQuestionsByCategory(@PathVariable("category") String category) {
+    public ResponseEntity<List<QuestionEntity>> getAllQuestionsByCategory(@PathVariable("category") String category) {
         return questionService.getQuestionsByCategory(category);
     }
 
     @PostMapping("/add")
-    public String addQuestion(@RequestBody QuestionEntity questionEntity) {
+    public ResponseEntity<String> addQuestion(@RequestBody QuestionEntity questionEntity) {
         return questionService.addQuestion(questionEntity);
     }
 

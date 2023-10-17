@@ -1,4 +1,4 @@
-CREATE TABLE Quiz (
+CREATE TABLE questions (
     id                 SERIAL          PRIMARY KEY,
     category           VARCHAR(128)     NOT NULL,
     difficulty_level   VARCHAR(128)     NOT NULL,

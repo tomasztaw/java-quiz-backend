@@ -1,11 +1,13 @@
 package pl.taw.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.taw.dao.QuestionDao;
 import pl.taw.database.entity.QuestionEntity;
-import pl.taw.utiles.QuestionCategory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,8 +16,13 @@ public class QuestionService {
     @Autowired
     private QuestionDao questionDao;
 
-    public List<QuestionEntity> getAllQuestions() {
-        return questionDao.findAll();
+    public ResponseEntity<List<QuestionEntity>> getAllQuestions() {
+        try {
+            return new ResponseEntity<>(questionDao.findAll(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
     }
 
     public List<String> getAllCategories() {
@@ -32,13 +39,22 @@ public class QuestionService {
     }
 
 
-    public List<QuestionEntity> getQuestionsByCategory(String category) {
-        return questionDao.findQuestionByCategory(category);
+    public ResponseEntity<List<QuestionEntity>> getQuestionsByCategory(String category) {
+        try {
+            return new ResponseEntity<>(questionDao.findQuestionByCategory(category), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
     }
 
-    public String addQuestion(QuestionEntity questionEntity) {
-        questionDao.save(questionEntity);
-        return "success";
+    public ResponseEntity<String> addQuestion(QuestionEntity questionEntity) {
+        try {
+            questionDao.save(questionEntity);
+            return new ResponseEntity<>("success", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("bad request", HttpStatus.BAD_REQUEST);
+        }
     }
 
     public String delete(Integer id) {

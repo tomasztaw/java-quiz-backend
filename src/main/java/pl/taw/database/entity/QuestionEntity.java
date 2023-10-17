@@ -1,10 +1,15 @@
 package pl.taw.database.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Data
-@Entity(name = "quiz")
+@With
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "questions")
 public class QuestionEntity {
 
     @Id
