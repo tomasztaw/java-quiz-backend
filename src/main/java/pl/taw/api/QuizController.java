@@ -2,11 +2,12 @@ package pl.taw.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.taw.dto.QuestionDto;
+import pl.taw.model.Response;
 import pl.taw.service.QuizService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/quiz")
@@ -20,5 +21,15 @@ public class QuizController {
             @RequestParam String category, @RequestParam int numQ, @RequestParam String title
     ) {
         return quizService.createQuiz(category, numQ, title);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<List<QuestionDto>> getQuizQuestions(@PathVariable("id") Integer id) {
+        return quizService.getQuizQuestions(id);
+    }
+
+    @PostMapping("/submit/{id}")
+    public ResponseEntity<Integer> submitQuiz(@PathVariable("id") Integer id, @RequestBody List<Response> responses) {
+        return quizService.calculateResult(id, responses);
     }
 }
